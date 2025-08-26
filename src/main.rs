@@ -78,7 +78,7 @@ fn main() -> Result<()> {
     }
 
     let num_columns = num_columns(window_count);
-    let windows_per_column = (window_count + num_columns - 1) / num_columns; // Ceiling division
+    let windows_per_column = window_count.div_ceil(num_columns);
     let column_width = 100.0 / num_columns as f64;
 
     println!(
@@ -86,7 +86,7 @@ fn main() -> Result<()> {
         num_columns, windows_per_column
     );
 
-    for (_i, window) in current_workspace_windows.iter().enumerate() {
+    for window in current_workspace_windows.iter() {
         let _ = client.action(Action::FocusWindow { id: window.id })?;
         let _ = client.action(Action::ExpelWindowFromColumn {})?;
     }
